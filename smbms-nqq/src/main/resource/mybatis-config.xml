@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="database.properties"/>
+
+    <settings>
+        <!-- 全局地开启或关闭配置文件中的所有映射器已经配置的任何缓存 -->
+        <setting name="cacheEnabled" value="true" />
+        <!-- 是否允许单一语句返回多结果集（需要驱动支持） -->
+        <setting name="multipleResultSetsEnabled" value="true" />
+        <!-- 延迟加载的全局开关。当开启时，所有关联对象都会延迟加载。
+         特定关联关系中可通过设置 fetchType 属性来覆盖该项的开关状态。  -->
+        <setting name="lazyLoadingEnabled" value="true" />
+        <!-- 指定 MyBatis 所用日志的具体实现，未指定时将自动查找。 -->
+        <setting name="logImpl" value="LOG4J" />
+        <!--<setting name="logImpl" value="SLF4J" />-->
+        <!-- 指定 MyBatis 增加到日志名称的前缀 -->
+        <setting name="logPrefix" value="->>>" />
+    </settings>
+
+    <typeAliases>
+        <package name="com.smbms.bill.entity" />
+    </typeAliases>
+
+    <environments default="test">
+        <environment id="development">
+            <!-- 指定的事务提交方式，这里使用的是JDBC默认的提交或回滚 -->
+            <transactionManager type="JDBC" />
+            <!-- 数据源类型
+                POOLED->这种数据源的实现利用“池”的概念将 JDBC 连接对象组织起来，
+                避免了创建新的连接实例时所必需的初始化和认证时间。
+                这是一种使得并发 Web 应用快速响应请求的流行处理方式。
+             -->
+            <dataSource type="POOLED">
+                <!-- 使用外部资源配置 -->
+                <property name="driver" value="${driver}" />
+                <property name="url" value="${url}" />
+                <property name="username" value="${user}" />
+                <property name="password" value="${password}" />
+                <!-- 连接池的最大连接数 -->
+                <property name="poolMaximumActiveConnections" value="20" />
+                <!-- 在内部直接配置 -->
+                <!-- <property name="driver" value="com.mysql.jdbc.Driver" />
+                 <property name="url" value="jdbc:mysql://localhost:3306/web_work?characterEncoding=utf8" />
+                 <property name="username" value="root" />
+                 <property name="password" value="sql123456" />-->
+            </dataSource>
+        </environment>
+
+        <!-- 测试环境配置 -->
+        <environment id="test">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="poolMaximumActiveConnections" value="20" />
+                <property name="driver" value="${driver}" />
+                <property name="url" value="${url}" />
+                <property name="username" value="${user}" />
+                <property name="password" value="${password}" />
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--<mapper resource="com/smbms/user/dao/SmbmsUserMapper.xml" />-->
+        <package name="com.smbms.user.dao" />
+        <package name="com.smbms.provider.dao" />
+        <package name="com.smbms.bill.dao" />
+    </mappers>
+</configuration>
